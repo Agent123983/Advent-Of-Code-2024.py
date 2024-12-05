@@ -21,27 +21,6 @@ with open('puzzle_input.txt', 'r') as puzzle_input:
             pass
 
 
-### Processing ###
-correct_updates = page_updates.copy()
-incorrect_updates = []
-for i in range(0,len(page_updates)):
-    current_update = page_updates[i]
-    for rule in page_order_rules:
-        try:
-            if rule[0] in page_updates[i] and rule[1] in page_updates[i]:
-                if page_updates[i].index(rule[0]) > page_updates[i].index(rule[1]):
-                    correct_updates.pop(correct_updates.index(current_update))
-                    incorrect_updates.append(current_update)
-        except ValueError as e:
-            pass
-        except IndexError:
-            pass
-
-for update in correct_updates:
-    correct_sum += int(update[math.ceil(len(update)/2)-1])
-
-print("Part 1:", correct_sum)
-
 def breaks_rules(update):
     try:
         for rule in page_order_rules:
@@ -55,6 +34,7 @@ def breaks_rules(update):
     except:
         pass
 
+
 def update_rules(update) -> list:
     for rule in page_order_rules:
         try:
@@ -63,6 +43,21 @@ def update_rules(update) -> list:
                 return update
         except ValueError:
             pass
+
+### Processing ###
+correct_updates = page_updates.copy()
+incorrect_updates = []
+for i in range(0,len(page_updates)):
+    current_update = page_updates[i]
+    if breaks_rules(current_update):
+        correct_updates.pop(correct_updates.index(current_update))
+        incorrect_updates.append(current_update)
+
+for update in correct_updates:
+    correct_sum += int(update[math.ceil(len(update)/2)-1])
+
+print("Part 1:", correct_sum)
+
 
 for update in incorrect_updates:
     while breaks_rules(update):
