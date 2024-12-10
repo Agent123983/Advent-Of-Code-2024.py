@@ -76,8 +76,6 @@ for i in range(0, len(file_location))[::-1]:
         pass
     free_space = free_space_check()
 
-
-
 check_sum = 0
 print("Started Check Sum")
 for i in range(0, len(disk)):
